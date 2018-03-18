@@ -1,9 +1,9 @@
-/*
- * EntryPoint.s
- *
- *  Created on: Mar 16, 2018
- *      Author: Lim JunSu(JLGGG)
- */
+;
+;  EntryPoint.s
+;
+;  Created on: Mar 16, 2018
+;  Author: Lim JunSu(JLGGG)
+;
 
 [BITS 64]
 
@@ -12,9 +12,9 @@ SECTION .text  ;define text section
 ;Import Main
 extern Main
 
-::::::::::::::::::::::::::::::::::::::::::
-:  code area
-::::::::::::::::::::::::::::::::::::::::::
+;:::::::::::::::::::::::::::::::::::::::::
+;  code area
+;:::::::::::::::::::::::::::::::::::::::::
 START:
 	mov ax, 0x10
 	mov ds, ax

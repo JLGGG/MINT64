@@ -16,7 +16,7 @@
 #define BYTEOFSECTOR 512
 
 int AdjustInSectorSize(int iFd, int iSourceSize);
-void WriteKernelInformation(int iTargetFd, int iKernelSectorCount);
+void WriteKernelInformation(int iTargetFd, int iTotalKernelSectorCount, int iKernel32SectorCount);
 int CopyFile(int iSourceFd, int iTargetFd);
 
 int main(int argc, char*argv[])
@@ -25,14 +25,16 @@ int main(int argc, char*argv[])
 	int iTargetFd;
 	int iBootLoaderSize;
 	int iKernel32SectorCount;
+	int iKernel64SectorCount;
 	int iSourceSize;
 
-	if(argc < 3)
+	if(argc < 4)
 	{
-		fprintf( stderr, "[ERROR] ImageMaker.exe BootLoader.bin Kernel32.bin\n");
+		fprintf( stderr, "[ERROR] ImageMaker.exe BootLoader.bin Kernel32.bin Kernel64.bin\n");
 		exit(-1);
 	}
 
+	//create Disk.img file
 	if((iTargetFd=open("Disk.img", O_RDWR | O_CREAT | O_TRUNC | S_IREAD |
 			S_IWRITE)) == -1)
 	{
@@ -40,6 +42,9 @@ int main(int argc, char*argv[])
 		exit(-1);
 	}
 
+	//---------------------------------------------------------
+	//open boot loader file and all data copy to disk image file
+	//---------------------------------------------------------
 	printf("[INFO] Copy boot loader to image file\n");
 	if((iSourceFd=open(argv[1], O_RDONLY)) == -1)
 	{
@@ -54,6 +59,9 @@ int main(int argc, char*argv[])
 	printf("[INFO] %s size = [%d] and sector count = [%d]\n",
 			argv[1], iSourceSize, iBootLoaderSize);
 
+	//---------------------------------------------------------
+	//open 32bit kernel file and all data copy to disk image file
+	//---------------------------------------------------------
 	printf("[INFO] Copy Protected mode kernel to image file\n");
 	if((iSourceFd=open(argv[2], O_RDONLY)) == -1)
 	{
@@ -64,12 +72,35 @@ int main(int argc, char*argv[])
 	iSourceSize=CopyFile(iSourceFd, iTargetFd);
 	close(iSourceFd);
 
+	//File size adjust sector size of 512byte, therefore The remainder part fill to 0x00
 	iKernel32SectorCount=AdjustInSectorSize(iTargetFd, iSourceSize);
 	printf("[INFO] %s size = [%d] and sector count = [%d]\n",
 			argv[2], iSourceSize, iKernel32SectorCount);
 
+	//---------------------------------------------------------
+	//open 64bit kernel file and all data copy to disk image file
+	//---------------------------------------------------------
+	printf("[INFO] Copy IA-32e mode kernel to image file\n");
+	if((iSourceFd=open(argv[3], O_RDONLY)) == -1)
+	{
+		fprintf(stderr, "[ERROR] %s open fail\n", argv[3]);
+		exit(-1);
+	}
+
+	iSourceSize=CopyFile(iSourceFd, iTargetFd);
+	close(iSourceFd);
+
+	//File size adjust sector size of 512byte, therefore The remainder part fill to 0x00
+	iKernel64SectorCount=AdjustInSectorSize(iTargetFd, iSourceSize);
+	printf("[INFO] %s size = [%d] and sector count = [%d]\n",
+			argv[3], iSourceSize, iKernel64SectorCount);
+
+	//----------------------------------------------------------
+	//renew kernel information of disk image
+	//----------------------------------------------------------
 	printf("[INFO] Start to write kernel information\n");
-	WriteKernelInformation(iTargetFd, iKernel32SectorCount);
+	//Input kernel information from fiveth byte of boot sector
+	WriteKernelInformation(iTargetFd, iKernel32SectorCount+iKernel64SectorCount, iKernel32SectorCount);
 	printf("[INFO] Image file create complete\n");
 
 	close(iTargetFd);
@@ -107,7 +138,7 @@ int AdjustInSectorSize(int iFd, int iSourceSize)
 
 }
 
-void WriteKernelInformation(int iTargetFd, int iKernelSectorCount)
+void WriteKernelInformation(int iTargetFd, int iTotalKernelSectorCount, int iKernel32SectorCount)
 {
 	unsigned short usData;
 	long lPosition;
@@ -120,10 +151,14 @@ void WriteKernelInformation(int iTargetFd, int iKernelSectorCount)
 		exit(-1);
 	}
 
-	usData=(unsigned short)iKernelSectorCount;
+	//save total sector count and protected mode sector count with the exception of boot loader
+	usData=(unsigned short)iTotalKernelSectorCount;
+	write(iTargetFd, &usData, 2);
+	usData=(unsigned short)iKernel32SectorCount;
 	write(iTargetFd, &usData, 2);
 
-	printf("[INFO] Total sector count except boot loader [%d]\n", iKernelSectorCount);
+	printf("[INFO] Total sector count except boot loader [%d]\n", iTotalKernelSectorCount);
+	printf("[INFO] Total sector count of protected mode kernel [%d]\n", iKernel32SectorCount);
 
 
 }
