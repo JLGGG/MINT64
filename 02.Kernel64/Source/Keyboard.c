@@ -245,7 +245,53 @@ static KEYMAPPINGENTRY gs_vstKeyMappingTable[KEY_MAPPINGTABLEMAXCOUNT]=
 		/* 48 */ { 'b'      , 'B'    },
 		/* 49 */ { 'n'      , 'N'    },
 		/* 50 */ { 'm'      , 'M'    },
+		/* 51 */ { ','      , '<'    },
+		/* 52 */ { '.'      , '>'    },
+		/* 53 */ { '/'      , '?'    },
+		/* 54 */ { KEY_RSHIFT      , KEY_RSHIFT    },
+		/* 55 */ { '*'      , '*'    },
+		/* 56 */ { KEY_LALT      , KEY_LALT    },
+		/* 57 */ { ' '      , ' '    },
+		/* 58 */ { KEY_CAPSLOCK      , KEY_CAPSLOCK    },
+		/* 59 */ { KEY_F1     , KEY_F1    },
+		/* 60 */ { KEY_F2     , KEY_F2    },
+		/* 61 */ { KEY_F3     , KEY_F3    },
+		/* 62 */ { KEY_F4     , KEY_F4    },
+		/* 63 */ { KEY_F5     , KEY_F5    },
+		/* 64 */ { KEY_F6     , KEY_F6    },
+		/* 65 */ { KEY_F7     , KEY_F7    },
+		/* 66 */ { KEY_F8     , KEY_F8    },
+		/* 67 */ { KEY_F9     , KEY_F9    },
+		/* 68 */ { KEY_F10     , KEY_F10    },
+		/* 69 */ { KEY_NUMLOCK     , KEY_NUMLOCK    },
+		/* 70 */ { KEY_SCROLLLOCK     , KEY_SCROLLLOCK    },
+		/* 71 */ { KEY_HOME     , '7'    },
+		/* 72 */ { KEY_UP     , '8'    },
+		/* 73 */ { KEY_PAGEUP     , '9'    },
+		/* 74 */ { '-'     , '-'    },
+		/* 75 */ { KEY_LEFT     , '4'    },
+		/* 76 */ { KEY_CENTER     , '5'    },
+		/* 77 */ { KEY_RIGHT     , '6'    },
+		/* 78 */ { '+'     , '+'    },
+		/* 79 */ { KEY_END     , '1'    },
+		/* 80 */ { KEY_DOWN     , '2'    },
+		/* 81 */ { KEY_PAGEDOWN     , '3'    },
+		/* 82 */ { KEY_INS     , '0'    },
+		/* 83 */ { KEY_DEL     , '.'    },
+		/* 84 */ { KEY_NONE     , KEY_NONE    },
+		/* 85 */ { KEY_NONE     , KEY_NONE    },
+		/* 86 */ { KEY_NONE     , KEY_NONE    },
+		/* 87 */ { KEY_F11     , KEY_F11    },
+		/* 88 */ { KEY_F12     , KEY_F12    }
 };
+
+//Returns whether the scan code is in the alphabetic range
+BOOL kIsAlphabetScanCode(BYTE bScanCode)
+{
+	//Read conversion table values directly to determine if they are in the alphabetic range
+
+
+}
 
 
 
