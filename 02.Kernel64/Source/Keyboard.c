@@ -289,8 +289,63 @@ static KEYMAPPINGENTRY gs_vstKeyMappingTable[KEY_MAPPINGTABLEMAXCOUNT]=
 BOOL kIsAlphabetScanCode(BYTE bScanCode)
 {
 	//Read conversion table values directly to determine if they are in the alphabetic range
+	if(('a'<=gs_vstKeyMappingTable[bScancode].bNormalCode)&&
+			(gs_vstKeyMappingTable[bScanCode].bNormalCode <= 'z'))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
 
+//Returns whether it is a number or range of symbols
+BOOL kIsNumberOrSymbolScanCode(BYTE bScanCode)
+{
+	/* Numbers or symbols other than alphabetic characters in the range excluding the numeric pad
+	 * or extended key range(scan codes 2 to 53)
+	 */
+	if((2<=bScanCode) && (bScanCode <= 53) &&
+			(kIsAlphabetScanCode(bScanCode) == FALSE))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
 
+//Returns whether the number pad range is
+BOOL kIsNumberPadScanCode(BYTE bScanCode)
+{
+	//The number pad is located at 71-83 of the scan code
+	if((71 <= bScanCode) && (bScanCode <= 83))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+//Returns whether combined key value should be used
+BOOL kIsUseCombinedCode(BOOL bScanCode)
+{
+	BYTE bDownScanCode;
+	BOOL bUseCombinedKey;
+
+	bDownScanCode = bSCanCode & 0x7F;
+	//Alphabetic keys are affected by shift key and caps lock
+	if(kIsAlphabetScanCode(bDownScanCode) == TRUE)
+	{
+		if(gs_stKeyboardManager.bShiftDown ^ gs_stKeyboardManager.bCapsLockOn)
+		{
+			bUseCombinedKey = TRUE;
+		}
+		else
+		{
+			bUseCombinedKey = FALSE;
+		}
+	}
+	//Numeric and symbol keys are affected by the shift key
+	else if(kIsNumberOrSymbolScanCode(bDownScanCode) == TRUE)
+	{
+
+	}
 }
 
 
