@@ -1,5 +1,6 @@
 #include "Descriptor.h"
 #include "Utility.h"
+#include "PrintString.h"
 
 //----------------------------------------
 // GDT & TSS
