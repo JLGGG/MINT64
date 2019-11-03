@@ -311,7 +311,175 @@ kISRTimer:
 	KSAVECONTEXT
 
 	mov rdi, 32
-	call kCommonExceptionHandler
+	call kCommonInterruptHandler
 
 	KLOADCONTEXT
 	iretq
+
+; #33, keyboard ISR
+kISRKeyboard:
+	KSAVECONTEXT
+
+	mov rdi, 33
+	call kKeyboardHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #34, slave PIC ISR
+kISRSlavePIC:
+	KSAVECONTEXT
+
+	mov rdi, 34
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #35, serial port 2 ISR
+kISRSerial2:
+	KSAVECONTEXT
+
+	mov rdi, 35
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #36, serial port 1 ISR
+kISRSerial1:
+	KSAVECONTEXT
+
+	mov rdi, 36
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #37, parallel port 2 ISR
+kISRParallel2:
+	KSAVECONTEXT
+
+	mov rdi, 37
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #38, floppy disk controller ISR
+kISRFloppy:
+	KSAVECONTEXT
+
+	mov rdi, 38
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #39, parallel port 1 ISR
+kISRParallel1:
+	KSAVECONTEXT
+
+	mov rdi, 39
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #40, RTC ISR
+kISRRTC:
+	KSAVECONTEXT
+
+	mov rdi, 40
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #41, reserved interrupt ISR
+kISRReserved:
+	KSAVECONTEXT
+
+	mov rdi, 41
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #42, not used
+kISRNotUsed1:
+	KSAVECONTEXT
+
+	mov rdi, 42
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #43, not used
+kISRNotUsed2:
+	KSAVECONTEXT
+
+	mov rdi, 43
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #44, mouse ISR
+kISRMouse:
+	KSAVECONTEXT
+
+	mov rdi, 44
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #45, Coprocessor ISR
+kISRCoprocessor:
+	KSAVECONTEXT
+
+	mov rdi, 45
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #46, HDD1 ISR
+kISRHDD1:
+	KSAVECONTEXT
+
+	mov rdi, 46
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #47, HDD2 ISR
+kISRHDD2:
+	KSAVECONTEXT
+
+	mov rdi, 47
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+; #48, ETC Interrupt ISR
+kISRETCInterrupt:
+	KSAVECONTEXT
+
+	mov rdi, 48
+	call kCommonInterruptHandler
+
+	KLOADCONTEXT
+	iretq
+
+
+
+
+
+
+
+
