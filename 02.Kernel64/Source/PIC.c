@@ -1,4 +1,5 @@
 #include "PIC.h"
+#include "AssemblyUtility.h"
 
 void kInitializePIC(void)
 {
@@ -13,7 +14,7 @@ void kInitializePIC(void)
 	kOutPortByte(PIC_MASTER_PORT2, 0x04);
 
 	//ICW4(port 0x21), uPM bit(bit 0) = 1
-	kOutPortByte(PIC_MASTER_PORT2, 0x01)
+	kOutPortByte(PIC_MASTER_PORT2, 0x01);
 
 	//initialize slave PIC controller
 	//ICW1(port 0xA0), IC4 bit(bit 0) = 1
