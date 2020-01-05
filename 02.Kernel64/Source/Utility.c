@@ -282,5 +282,104 @@ int kDecimalToString(long lValue, char* pcBuffer)
 	return i;
 }
 
+//Reversing the order of the string.
+void kReverseString(char* pcBuffer)
+{
+	int iLength;
+	int i;
+	char cTemp;
+
+	//Invert the order by swapping the left/right around the center of the string.
+	iLength = kStrLen(pcBuffer);
+	for(i=0; i<iLength/2; i++)
+	{
+		cTemp = pcBuffer[i];
+		pcBuffer[i] = pcBuffer[iLength - 1 - i];
+		pcBuffer[iLength - 1 - i] = cTemp;
+	}
+}
+
+//Internal implementation of sprintf().
+int kSPrintf(char* pcBuffer, const char* pcFormatString, ...)
+{
+	va_list ap;
+	int iReturn;
+
+	//Take out variable factor and pass it on to vsprintf().
+	va_start(ap, pcFormatString);
+	iReturn = kVSPrintf(pcBuffer, pcFormatString, ap);
+	va_end(ap);
+
+	return iReturn;
+}
+
+//Internal implementation of vsprintf().
+int kVSPrintf(char* pcBuffer, const char* pcFormatString, va_list ap)
+{
+	QWORD i, j;
+	int iBufferIndex = 0;
+	int iFormatLength, iCopyLength;
+	char* pcCopyString;
+	QWORD qwValue;
+	int iValue;
+
+	iFormatLength = kStrLen(pcFormatString);
+	for(i=0; i<iFormatLength; i++)
+	{
+		if(pcFormatString[i] == '%')
+		{
+			i++;
+			switch(pcFormatString[i])
+			{
+			case 's':
+				pcCopyString = (char*)(va_arg(ap, char*));
+				iCopyLength = kStrLen(pcCopyString);
+				kMemCpy(pcBuffer + iBufferIndex, pcCopyString, iCopyLength);
+				iBufferIndex += iCopyLength;
+				break;
+
+			case 'c':
+				pcBuffer[iBufferIndex] = (char)(va_arg(ap, int));
+				iBufferIndex++;
+				break;
+
+			case 'd':
+			case 'i':
+				iValue = (int)(va_arg(ap, int));
+				iBufferIndex += kIToA(iValue, pcBuffer + iBufferIndex, 10);
+				break;
+
+			case 'x':
+			case 'X':
+				qwValue = (DWORD)(va_arg(ap, DWORD)) & 0xFFFFFFFF;
+				iBufferIndex += kIToA(qwValue, pcBuffer + iBufferIndex, 16);
+				break;
+
+			case 'q':
+			case 'Q':
+			case 'p':
+				qwValue = (QWORD)(va_arg(ap, QWORD));
+				iBufferIndex += kIToA(qwValue, pcBuffer + iBufferIndex, 16);
+				break;
+
+			default:
+				pcBuffer[iBufferIndex] = pcFormatString[i];
+				iBufferIndex++;
+				break;
+
+			}
+		}
+		//General string processing.
+		else
+		{
+			pcBuffer[iBufferIndex] = pcFormatString[i];
+			iBufferIndex++;
+		}
+	}
+
+	//Add NULL to make it a complete string and return the length of the string you printed.
+	pcBuffer[iBufferIndex] = '\0';
+	return iBufferIndex;
+}
 
 
