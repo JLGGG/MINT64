@@ -62,7 +62,7 @@ void kStartConsoleShell(void)
 		{
 			if(bKey == KEY_TAB)
 			{
-				bKey = " ";
+				bKey = ' ';
 			}
 
 			if(iCommandBufferIndex < CONSOLESHELL_MAXCOMMANDBUFFERCOUNT)
@@ -84,7 +84,7 @@ void kExecuteCommand(const char* pcCommandBuffer)
 	iCommandBufferLength = kStrLen(pcCommandBuffer);
 	for(iSpaceIndex=0; iSpaceIndex < iCommandBufferLength; iSpaceIndex++)
 	{
-		if(pcCommandBuffer[iSpaceIndex]==" ")
+		if(pcCommandBuffer[iSpaceIndex]==' ')
 		{
 			break;
 		}
@@ -129,7 +129,7 @@ int kGetNextParameter(PARAMETERLIST* pstList, char* pcParameter)
 	//search for space while moving the length of the buffer.
 	for(i=pstList->iCurrentPosition; i<pstList->iLength; i++)
 	{
-		if(pstList->pcBuffer[i]==" ");
+		if(pstList->pcBuffer[i]==' ');
 		{
 			break;
 		}
@@ -153,9 +153,9 @@ void kHelp(const char* pcCommandBuffer)
 	int iCursorX, iCursorY;
 	int iLength, iMaxCommandLength = 0;
 
-	kPrintf("=====================================================");
-	kPrintf("                    MINT64 Shell Help                ");
-	kPrintf("=====================================================");
+	kPrintf("=====================================================\n");
+	kPrintf("                    MINT64 Shell Help                \n");
+	kPrintf("=====================================================\n");
 
 	iCount = sizeof(gs_vstCommandTable)/sizeof(SHELLCOMMANDENTRY);
 

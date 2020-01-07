@@ -1,6 +1,9 @@
 #include <stdarg.h>
 #include "Console.h"
 #include "Keyboard.h"
+#include "Utility.h"
+#include "AssemblyUtility.h"
+#include "Types.h"
 
 //Data structure for managing information on console
 CONSOLEMANAGER gs_stConsoleManager = {0,};
@@ -96,7 +99,7 @@ int kConsolePrintString(const char* pcBuffer)
 		{
 			//Set characters and properties in video memory and print character
 			//and then move the next position for output position.
-			pstScreen[iPrintOffset].bCharactor = pcBuffer[i];
+			pstScreen[iPrintOffset].bCharacter = pcBuffer[i];
 			pstScreen[iPrintOffset].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
 			iPrintOffset++;
 		}
@@ -111,7 +114,7 @@ int kConsolePrintString(const char* pcBuffer)
 			for(j=(CONSOLE_HEIGHT - 1)*(CONSOLE_WIDTH);
 					j<(CONSOLE_HEIGHT*CONSOLE_WIDTH); j++)
 			{
-				pstScreen[j].bCharactor = ' ';
+				pstScreen[j].bCharacter = ' ';
 				pstScreen[j].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
 			}
 
@@ -129,7 +132,7 @@ void kClearScreen(void)
 
 	for(i=0; i<CONSOLE_WIDTH*CONSOLE_HEIGHT; i++)
 	{
-		pstScreen[i].bCharactor = ' ';
+		pstScreen[i].bCharacter = ' ';
 		pstScreen[i].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
 	}
 
@@ -165,7 +168,7 @@ void kPrintStringXY(int iX, int iY, const char* pcString)
 	pstScreen += (iY*80) + iX;
 	for(i=0; pcString[i]!=0; i++)
 	{
-		pstScreen[i].bCharactor = pcString[i];
+		pstScreen[i].bCharacter = pcString[i];
 		pstScreen[i].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
 	}
 }
