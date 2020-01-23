@@ -32,9 +32,9 @@ void kInitializeParameter(PARAMETERLIST* pstList, const char* pcParameter);
 int kGetNextParameter(PARAMETERLIST* pstList, char* pcParameter);
 
 void kHelp(const char* pcParameterBuffer);
-void kCls(const char* pcParameterBuffer);
+void kCls(void);
 void kShowTotalRAMSize(const char* pcParameterBuffer);
 void kStringToDecimalHexTest(const char* pcParameterBuffer);
-void kShutdown(const char* pcParameterBuffer);
+void kShutdown(void);
 
 #endif /*__CONSOLESHELL_H__*/

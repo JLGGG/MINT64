@@ -96,7 +96,7 @@ void kExecuteCommand(const char* pcCommandBuffer)
 		iCommandLength = kStrLen(gs_vstCommandTable[i].pcCommand);
 		if((iCommandLength == iSpaceIndex) && (kMemCmp(gs_vstCommandTable[i].pcCommand, pcCommandBuffer, iSpaceIndex) == 0))
 		{
-			gs_vstCommandTable[i].pfFunction(pcCommandBuffer + iSpaceIndex + 1);// I don't understand iSpaceIndex is what a role.
+			gs_vstCommandTable[i].pfFunction(pcCommandBuffer + iSpaceIndex + 1);// pass on the next factor of the command.
 			break;
 		}
 	}
@@ -129,7 +129,7 @@ int kGetNextParameter(PARAMETERLIST* pstList, char* pcParameter)
 	//search for space while moving the length of the buffer.
 	for(i=pstList->iCurrentPosition; i<pstList->iLength; i++)
 	{
-		if(pstList->pcBuffer[i]==' ');
+		if(pstList->pcBuffer[i]==' ')
 		{
 			break;
 		}
@@ -154,7 +154,7 @@ void kHelp(const char* pcCommandBuffer)
 	int iLength, iMaxCommandLength = 0;
 
 	kPrintf("=====================================================\n");
-	kPrintf("                    MINT64 Shell Help                \n");
+	kPrintf("                 MINT64 Shell Help                   \n");
 	kPrintf("=====================================================\n");
 
 	iCount = sizeof(gs_vstCommandTable)/sizeof(SHELLCOMMANDENTRY);
@@ -177,7 +177,7 @@ void kHelp(const char* pcCommandBuffer)
 	}
 }
 
-void kCls(const char* pcParameterBuffer)
+void kCls(void)
 {
 	kClearScreen();
 	kSetCursor(0, 1);
@@ -191,7 +191,7 @@ void kShowTotalRAMSize(const char* pcParameterBuffer)
 void kStringToDecimalHexTest(const char* pcParameterBuffer)
 {
 	char vcParameter[100];
-	int iLength;
+	int iLength = 0;
 	PARAMETERLIST stList;
 	int iCount = 0;
 	long lValue;
@@ -206,7 +206,7 @@ void kStringToDecimalHexTest(const char* pcParameterBuffer)
 			break;
 		}
 
-		kPrintf("Param %d = %s, Length = %d", iCount + 1, vcParameter, iLength);
+		kPrintf("Param %d = %s, Length = %d ", iCount + 1, vcParameter, iLength);
 
 		if(kMemCmp(vcParameter, "0x", 2)==0)
 		{
@@ -223,7 +223,7 @@ void kStringToDecimalHexTest(const char* pcParameterBuffer)
 	}
 }
 
-void kShutdown(const char* pcParameterBuffer)
+void kShutdown(void)
 {
 	kPrintf("System Shutdown Start.....\n");
 
