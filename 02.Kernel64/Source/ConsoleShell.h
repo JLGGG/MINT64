@@ -36,5 +36,10 @@ void kCls(void);
 void kShowTotalRAMSize(const char* pcParameterBuffer);
 void kStringToDecimalHexTest(const char* pcParameterBuffer);
 void kShutdown(void);
+void kSetTimer(const char* pcParameterBuffer);
+void kWaitUsingPIT(const char* pcParameterBuffer);
+void kReadTimeStampCounter(const char* pcParameterBuffer);
+void kMeasureProcessorSpeed(const char* pcParameterBuffer);
+void kShowDateAndTime(const char* pcParameterBuffer);
 
 #endif /*__CONSOLESHELL_H__*/

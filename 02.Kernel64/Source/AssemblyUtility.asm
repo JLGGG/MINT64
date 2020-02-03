@@ -4,6 +4,7 @@ SECTION .text
 
 global kInPortByte, kOutPortByte, kLoadGDTR, kLoadTR, kLoadIDTR
 global kEnableInterrupt, kDisableInterrupt, kReadRFLAGS
+global kReadTSC
 
 kInPortByte:
 	push rdx
@@ -63,5 +64,18 @@ kReadRFLAGS:
 	pushfq
 	pop rax
 
+	ret
+
+;Return time stamp counter by reading
+; PARAM: no
+kReadTSC:
+	push rdx
+
+	rdtsc		; Read a time stamp counter and save it to RDX:RAX
+
+	shl rdx, 32	; upper 32bit TSC value on RDX register and lower 32bit TSC value on RAX register
+	or rax, rdx	; in OR operation save a 64bit TSC value to RAX register.
+
+	pop rdx
 	ret
 
