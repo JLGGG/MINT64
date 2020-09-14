@@ -1,25 +1,25 @@
-[ORG 0x00]
-[BITS 16]
+[ORG 0x00] // Set code start address to 0x00
+[BITS 16] // Code below is set to 16-bit code.
 
-SECTION .text
+SECTION .text // Define text segment.
 
-jmp 0x07C0:START
+jmp 0x07C0:START // Move to START label, copying 0x07C0 to cs segment register.
 
-TOTALSECTORCOUNT: dw 2
+TOTALSECTORCOUNT: dw 2 // Size of MINT64 OS image, except bootloader
 
 KERNEL32SECTORCOUNT: dw 0x02
 
 
 START:
-	mov ax, 0x07C0
-	mov ds, ax
-	mov ax, 0xB800
-	mov es, ax
-
-	mov ax, 0x0000
-	mov ss, ax
-	mov sp, 0xFFFE
-	mov bp, 0xFFFE
+	mov ax, 0x07C0 // Conversions the bootloader' start address(0x07C0) as a segment register value.
+	mov ds, ax // Set to DS segment register.
+	mov ax, 0xB800 // Conversions the video memory' start address(0xB800) as a segment register value.
+	mov es, ax // Set to ES segment register.
+	// Set stack to 64KB size in 0x0000:0000 to 0x0000:FFFF areas.
+	mov ax, 0x0000 // Conversions the stack segment' start address(0x0000) as a segment register value.
+	mov ss, ax // Set to SS segment register.
+	mov sp, 0xFFFE // Set address of SP register to 0xFFFE.(SP = Stack Point)
+	mov bp, 0xFFFE // Set address of BP register to 0xFFFE.(BP = Base Point)
 
 	mov si, 0
 
