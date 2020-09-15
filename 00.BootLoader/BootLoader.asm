@@ -21,13 +21,14 @@ START:
 	mov sp, 0xFFFE // Set address of SP register to 0xFFFE.(SP = Stack Point)
 	mov bp, 0xFFFE // Set address of BP register to 0xFFFE.(BP = Base Point)
 
-	mov si, 0
+	// Clear all screens, set property values to green
+	mov si, 0 // Initialize SI register(string original index register).
 
-.SCREENCLEARLOOP:
-	mov byte[es:si], 0
-	mov byte[es:si+1], 0x0A
+.SCREENCLEARLOOP: // Loop for erasing screen.
+	mov byte[es:si], 0 // Delete a character by copying 0 to the address where the character in the video memory resides.
+	mov byte[es:si+1], 0x0A // Copy 0x0A to the address where the attribute in the video memory resides.
 
-	add si, 2
+	add si, 2 // Because you have set characters and properties, go to the following location.
 
 	cmp si, 80*25*2
 	jl .SCREENCLEARLOOP
